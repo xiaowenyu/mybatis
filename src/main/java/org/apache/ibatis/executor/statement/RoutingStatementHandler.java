@@ -64,7 +64,8 @@ public class RoutingStatementHandler implements StatementHandler {
   }
 
   @Override
-  public void parameterize(Statement statement) throws SQLException {
+  public void
+  parameterize(Statement statement) throws SQLException {
     delegate.parameterize(statement);
   }
 

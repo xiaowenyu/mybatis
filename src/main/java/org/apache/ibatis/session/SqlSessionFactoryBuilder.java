@@ -57,7 +57,9 @@ public class SqlSessionFactoryBuilder {
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
         //委托XMLConfigBuilder来解析xml文件，并构建
+      //config.xml解析为org.w3c.dom.Document
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
+     //Document转换为Configuration，配置信息都存储在configuration中(少部分在BaseBuilder中)
       return build(parser.parse());
     } catch (Exception e) {
         //这里是捕获异常，包装成自己的异常并抛出的idiom？，最后还要reset ErrorContext

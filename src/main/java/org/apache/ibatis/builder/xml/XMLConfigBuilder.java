@@ -144,7 +144,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       objectFactoryElement(root.evalNode("objectFactory"));
       //5.对象包装工厂
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
-      //6.设置
+      //6.设置（获取了<configuration>下的<settings>节点）
       settingsElement(root.evalNode("settings"));
       // read it after objectFactory and objectWrapperFactory issue #631
       //7.环境

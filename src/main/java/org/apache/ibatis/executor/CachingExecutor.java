@@ -43,6 +43,7 @@ public class CachingExecutor implements Executor {
   private Executor delegate;
   private TransactionalCacheManager tcm = new TransactionalCacheManager();
 
+  //装饰器模式，将cachingExecutor放入delegate，之后方法直接调用装饰后的delegate
   public CachingExecutor(Executor delegate) {
     this.delegate = delegate;
     delegate.setExecutorWrapper(this);

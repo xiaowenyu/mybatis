@@ -48,8 +48,10 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
   //最终都会调用2种方法：openSessionFromDataSource,openSessionFromConnection
   //以下6个方法都会调用openSessionFromDataSource
+  //开启会话入口
   @Override
   public SqlSession openSession() {
+    //自动提交为false,即默认每次都需要手动提交
     return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
   }
 

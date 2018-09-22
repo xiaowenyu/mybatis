@@ -47,6 +47,7 @@ public class PreparedStatementHandler extends BaseStatementHandler {
   public int update(Statement statement) throws SQLException {
     //调用PreparedStatement.execute和PreparedStatement.getUpdateCount
     PreparedStatement ps = (PreparedStatement) statement;
+    //真正执行的地方
     ps.execute();
     int rows = ps.getUpdateCount();
     Object parameterObject = boundSql.getParameterObject();
@@ -71,6 +72,7 @@ public class PreparedStatementHandler extends BaseStatementHandler {
   @Override
   protected Statement instantiateStatement(Connection connection) throws SQLException {
     //调用Connection.prepareStatement
+    //获取准备好的sql语句
     String sql = boundSql.getSql();
     if (mappedStatement.getKeyGenerator() instanceof Jdbc3KeyGenerator) {
       String[] keyColumnNames = mappedStatement.getKeyColumns();
@@ -82,6 +84,7 @@ public class PreparedStatementHandler extends BaseStatementHandler {
     } else if (mappedStatement.getResultSetType() != null) {
       return connection.prepareStatement(sql, mappedStatement.getResultSetType().getValue(), ResultSet.CONCUR_READ_ONLY);
     } else {
+      //返回准备好的statement
       return connection.prepareStatement(sql);
     }
   }

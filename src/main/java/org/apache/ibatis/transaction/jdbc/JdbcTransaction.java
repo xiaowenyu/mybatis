@@ -60,6 +60,7 @@ public class JdbcTransaction implements Transaction {
     this.connection = connection;
   }
 
+  //获取连接
   @Override
   public Connection getConnection() throws SQLException {
     if (connection == null) {
@@ -143,6 +144,7 @@ public class JdbcTransaction implements Transaction {
     }
     connection = dataSource.getConnection();
     if (level != null) {
+      //设置事务隔离级别
       connection.setTransactionIsolation(level.getLevel());
     }
     setDesiredAutoCommit(autoCommmit);

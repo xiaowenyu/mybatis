@@ -162,6 +162,7 @@ public class DefaultSqlSession implements SqlSession {
     }
   }
 
+  //insert入口
   @Override
   public int insert(String statement) {
     return insert(statement, null);
@@ -184,6 +185,7 @@ public class DefaultSqlSession implements SqlSession {
     try {
       //每次要更新之前，dirty标志设为true
       dirty = true;
+      //根据statement从Configuration中获取MappedStatement
       MappedStatement ms = configuration.getMappedStatement(statement);
       //转而用执行器来update结果
       return executor.update(ms, wrapCollection(parameter));
@@ -303,6 +305,7 @@ public class DefaultSqlSession implements SqlSession {
     return (!autoCommit && dirty) || force;
   }
 
+  //确认参数的类型
   //把参数包装成Collection
   private Object wrapCollection(final Object object) {
     if (object instanceof Collection) {

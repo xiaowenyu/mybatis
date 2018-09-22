@@ -187,6 +187,7 @@ public class UnpooledDataSource implements DataSource {
     this.defaultTransactionIsolationLevel = defaultTransactionIsolationLevel;
   }
 
+  //获取连接
   private Connection doGetConnection(String username, String password) throws SQLException {
     Properties props = new Properties();
     if (driverProperties != null) {
@@ -209,11 +210,13 @@ public class UnpooledDataSource implements DataSource {
     return connection;
   }
 
+  //初始化数据库驱动
   private synchronized void initializeDriver() throws SQLException {
 	  //这里便是大家熟悉的初学JDBC时的那几句话了 Class.forName newInstance()
     if (!registeredDrivers.containsKey(driver)) {
       Class<?> driverType;
       try {
+        //
         if (driverClassLoader != null) {
           driverType = Class.forName(driver, true, driverClassLoader);
         } else {
@@ -222,6 +225,7 @@ public class UnpooledDataSource implements DataSource {
         // DriverManager requires the driver to be loaded via the system ClassLoader.
         // http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
         Driver driverInstance = (Driver)driverType.newInstance();
+        //注册驱动
         DriverManager.registerDriver(new DriverProxy(driverInstance));
         registeredDrivers.put(driver, driverInstance);
       } catch (Exception e) {
@@ -230,6 +234,7 @@ public class UnpooledDataSource implements DataSource {
     }
   }
 
+  //配置连接，是否自动提交和事务隔离级别
   private void configureConnection(Connection conn) throws SQLException {
     if (autoCommit != null && autoCommit != conn.getAutoCommit()) {
       conn.setAutoCommit(autoCommit);

@@ -80,6 +80,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     this.builderAssistant.setCurrentNamespace(namespace);
   }
 
+  //构造XMLMapperBuilder
   public XMLMapperBuilder(InputStream inputStream, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
     this(new XPathParser(inputStream, true, configuration.getVariables(), new XMLMapperEntityResolver()),
         configuration, resource, sqlFragments);
@@ -489,14 +490,17 @@ public class XMLMapperBuilder extends BaseBuilder {
     return null;
   }
 
+  //绑定*mapper配置文件到命名空间
   private void bindMapperForNamespace() {
     String namespace = builderAssistant.getCurrentNamespace();
     if (namespace != null) {
       Class<?> boundType = null;
       try {
+        //通过全量名反射找到类
         boundType = Resources.classForName(namespace);
       } catch (ClassNotFoundException e) {
         //ignore, bound type is not required
+        //忽略找不到类的异常，绑定的类型不是必须的
       }
       if (boundType != null) {
         if (!configuration.hasMapper(boundType)) {

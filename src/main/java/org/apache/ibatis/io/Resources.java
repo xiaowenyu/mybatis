@@ -259,6 +259,7 @@ public class Resources {
    * @return The loaded class
    * @throws ClassNotFoundException If the class cannot be found (duh!)
    */
+  //用固定的5个类加载器加载
   public static Class<?> classForName(String className) throws ClassNotFoundException {
     return classLoaderWrapper.classForName(className);
   }

@@ -246,6 +246,7 @@ public class XPathParser {
     try {
 		//这个是DOM解析方式
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      //DTD验证
       factory.setValidating(validation);
 
 		//名称空间

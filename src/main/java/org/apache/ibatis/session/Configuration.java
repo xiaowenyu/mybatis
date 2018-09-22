@@ -519,9 +519,10 @@ public class Configuration {
     }
     //如果要求缓存，生成另一种CachingExecutor(默认就是有缓存),装饰者模式,所以默认都是返回CachingExecutor
     if (cacheEnabled) {
+      //缓存入口
       executor = new CachingExecutor(executor);
     }
-    //此处调用插件,通过插件可以改变Executor行为
+    //此处调用插件,通过插件可以改变Executor行为(插件调用入口)
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

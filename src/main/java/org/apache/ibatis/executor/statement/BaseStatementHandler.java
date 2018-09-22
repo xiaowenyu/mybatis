@@ -86,7 +86,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
     return parameterHandler;
   }
 
-  //准备语句
+  //准备语句，返回java.sql.Statement
   @Override
   public Statement prepare(Connection connection) throws SQLException {
     ErrorContext.instance().sql(boundSql.getSql());

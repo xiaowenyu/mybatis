@@ -54,6 +54,7 @@ public abstract class BaseExecutor implements Executor {
   private static final Log log = LogFactory.getLog(BaseExecutor.class);
 
   protected Transaction transaction;
+  //cachingExecutor放在这
   protected Executor wrapper;
 
   //延迟加载队列（线程安全）
@@ -354,6 +355,7 @@ public abstract class BaseExecutor implements Executor {
     Connection connection = transaction.getConnection();
     if (statementLog.isDebugEnabled()) {
       //如果需要打印Connection的日志，返回一个ConnectionLogger(代理模式, AOP思想)
+      //日志代理QAQ
       return ConnectionLogger.newInstance(connection, statementLog, queryStack);
     } else {
       return connection;

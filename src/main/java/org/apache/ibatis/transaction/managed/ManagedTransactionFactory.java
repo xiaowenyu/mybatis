@@ -57,6 +57,7 @@ public class ManagedTransactionFactory implements TransactionFactory {
     return new ManagedTransaction(conn, closeConnection);
   }
 
+  //新构建事务
   @Override
   public Transaction newTransaction(DataSource ds, TransactionIsolationLevel level, boolean autoCommit) {
     // Silently ignores autocommit and isolation level, as managed transactions are entirely

@@ -43,6 +43,7 @@ public class JndiDataSourceFactory implements DataSourceFactory {
 
   private DataSource dataSource;
 
+  //根据properties构造数据源(datasource)
   @Override
   public void setProperties(Properties properties) {
     try {

@@ -87,6 +87,7 @@ public class ClassLoaderWrapper {
    * @return - the class
    * @throws ClassNotFoundException Duh.
    */
+  //用固定的5个类加载器加载
   public Class<?> classForName(String name) throws ClassNotFoundException {
     return classForName(name, getClassLoaders(null));
   }
@@ -173,13 +174,14 @@ public class ClassLoaderWrapper {
 
   /*
    * Attempt to load a class from a group of classloaders
-   * 用5个类加载器一个个调用Class.forName(加载类)，只要其中任何一个加载成功，就返回
+   *
    *
    * @param name        - the class to load
    * @param classLoader - the group of classloaders to examine
    * @return the class
    * @throws ClassNotFoundException - Remember the wisdom of Judge Smails: Well, the world needs ditch diggers, too.
    */
+  //用5个类加载器一个个调用Class.forName(加载类)，只要其中任何一个加载成功，就返回
   Class<?> classForName(String name, ClassLoader[] classLoader) throws ClassNotFoundException {
 
     for (ClassLoader cl : classLoader) {
@@ -195,6 +197,7 @@ public class ClassLoaderWrapper {
           }
 
         } catch (ClassNotFoundException e) {
+          //忽略这个异常，直到全部类加载器都加载不到
           // we'll ignore this until all classloaders fail to locate the class
         }
 
