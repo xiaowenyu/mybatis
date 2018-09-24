@@ -65,6 +65,7 @@ public class DefaultSqlSession implements SqlSession {
     this(configuration, executor, false);
   }
 
+  //select入口
   @Override
   public <T> T selectOne(String statement) {
     return this.<T>selectOne(statement, null);

@@ -158,12 +158,16 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     final List<Object> multipleResults = new ArrayList<Object>();
 
     int resultSetCount = 0;
+    //获取resultSet的包装
     ResultSetWrapper rsw = getFirstResultSet(stmt);
 
+    //resultMaps????
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     //一般resultMaps里只有一个元素
     int resultMapCount = resultMaps.size();
+    //校验返回值
     validateResultMapsCount(rsw, resultMapCount);
+    //将ResultSetWrapper中的值根据ResultMap，转成Java对象
     while (rsw != null && resultMapCount > resultSetCount) {
       ResultMap resultMap = resultMaps.get(resultSetCount);
       handleResultSet(rsw, resultMap, multipleResults, null);
@@ -239,6 +243,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     ancestorColumnPrefix.clear();
   }
 
+  //如果有结果返回，但是没有ResultMap和ResultType与之对应，抛出异常
   private void validateResultMapsCount(ResultSetWrapper rsw, int resultMapCount) {
     if (rsw != null && resultMapCount < 1) {
       throw new ExecutorException("A query was run and no Result Maps were found for the Mapped Statement '" + mappedStatement.getId()

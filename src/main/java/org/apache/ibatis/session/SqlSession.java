@@ -43,6 +43,7 @@ public interface SqlSession extends Closeable {
    * @param statement sqlID
    * @return Mapped object 封装之后的对象
    */
+  //select 入口
   <T> T selectOne(String statement);
 
   /**
