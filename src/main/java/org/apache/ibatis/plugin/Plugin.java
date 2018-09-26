@@ -44,6 +44,8 @@ public class Plugin implements InvocationHandler {
     this.signatureMap = signatureMap;
   }
 
+  //后面设置的先执行，因为后面的代理先执行
+  //生成插件的代理对象
   public static Object wrap(Object target, Interceptor interceptor) {
     //取得签名Map
     Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
@@ -78,12 +80,12 @@ public class Plugin implements InvocationHandler {
     }
   }
 
-  //取得签名Map
+  //取得签名Map,插件必须要有注解
   private static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) {
     //取Intercepts注解，例子可参见ExamplePlugin.java
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
     // issue #251
-    //必须得有Intercepts注解，没有报错
+    //必须得有Intercepts注解，没有报错!!!
     if (interceptsAnnotation == null) {
       throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());      
     }

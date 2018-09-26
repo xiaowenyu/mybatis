@@ -25,6 +25,7 @@ import java.util.Properties;
 @Intercepts({})
 public class ExamplePlugin implements Interceptor {
 
+  //前后加拦截的逻辑
   public Object intercept(Invocation invocation) throws Throwable {
     return invocation.proceed();
   }

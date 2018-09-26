@@ -118,7 +118,7 @@ public abstract class BaseBuilder {
     }
   }
 
-  //根据别名解析Class,其实是去查看 类型别名注册/事务管理器别名
+  //根据别名解析Class,其实是去查看 类型别名注册/事务管理器别名/插件别名
   protected Class<?> resolveClass(String alias) {
     if (alias == null) {
       return null;
@@ -162,6 +162,7 @@ public abstract class BaseBuilder {
     return handler;
   }
 
+  //解析类和别名
   protected Class<?> resolveAlias(String alias) {
     return typeAliasRegistry.resolveAlias(alias);
   }

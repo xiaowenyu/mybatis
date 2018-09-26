@@ -31,6 +31,7 @@ public class InterceptorChain {
   //内部就是一个拦截器的List
   private final List<Interceptor> interceptors = new ArrayList<Interceptor>();
 
+  //为目标对象添加所有拦截器
   public Object pluginAll(Object target) {
     //循环调用每个Interceptor.plugin方法
     for (Interceptor interceptor : interceptors) {

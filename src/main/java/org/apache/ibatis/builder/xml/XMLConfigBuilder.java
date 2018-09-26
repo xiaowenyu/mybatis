@@ -203,7 +203,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
-  //3.插件
+  //3.插件配置入口
   //MyBatis 允许你在某一点拦截已映射语句执行的调用。默认情况下,MyBatis 允许使用插件来拦截方法调用
 //<plugins>
 //  <plugin interceptor="org.mybatis.example.ExamplePlugin">
@@ -213,9 +213,13 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void pluginElement(XNode parent) throws Exception {
     if (parent != null) {
       for (XNode child : parent.getChildren()) {
+        //获得拦截器的全量名
         String interceptor = child.getStringAttribute("interceptor");
+        //获得属性
         Properties properties = child.getChildrenAsProperties();
+        //构造拦截器
         Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
+        //设置属性
         interceptorInstance.setProperties(properties);
         //调用InterceptorChain.addInterceptor
         configuration.addInterceptor(interceptorInstance);
