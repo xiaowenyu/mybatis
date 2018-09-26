@@ -122,6 +122,7 @@ public abstract class BaseExecutor implements Executor {
     if (closed) {
       throw new ExecutorException("Executor was closed.");
     }
+    //每次update都清空缓存
     //先清局部缓存，再更新，如何更新交由子类，模板方法模式
     clearLocalCache();
     return doUpdate(ms, parameter);
@@ -159,6 +160,7 @@ public abstract class BaseExecutor implements Executor {
     if (closed) {
       throw new ExecutorException("Executor was closed.");
     }
+    //设置flushCache属性为true，则清除localCache
     //先清局部缓存，再查询.但仅查询堆栈为0，才清。为了处理递归调用
     if (queryStack == 0 && ms.isFlushCacheRequired()) {
       clearLocalCache();
@@ -167,7 +169,8 @@ public abstract class BaseExecutor implements Executor {
     try {
       //加一,这样递归调用到上面的时候就不会再清局部缓存了
       queryStack++;
-      //先根据cachekey从localCache去查
+      //使用1级缓存
+      //先根据cachekey从localCache去查，localCache类型为PerpetualCache
       list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
         //若查到localCache缓存，处理localOutputParameterCache

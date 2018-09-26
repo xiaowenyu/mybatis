@@ -38,6 +38,7 @@ public class TransactionalCacheManager {
 
   //得到某个TransactionalCache的值
   public Object getObject(Cache cache, CacheKey key) {
+    //事务缓存，一次性更新多个缓存
     return getTransactionalCache(cache).getObject(key);
   }
   

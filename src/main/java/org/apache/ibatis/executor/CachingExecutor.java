@@ -80,6 +80,8 @@ public class CachingExecutor implements Executor {
     return delegate.update(ms, parameterObject);
   }
 
+  //因为executor是在openDefaultSession的时候构造并引用进的，
+  // 所以一级缓存是sqlSession级别的
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     BoundSql boundSql = ms.getBoundSql(parameterObject);
@@ -92,14 +94,19 @@ public class CachingExecutor implements Executor {
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)
       throws SQLException {
+    //二级缓存入口，二级缓存在1级缓存之前判断，因为ms是从Configuration中获取的，
+    // 所以二级缓存的生命周期是应用的生命周期
     Cache cache = ms.getCache();
     //默认情况下是没有开启缓存的(二级缓存).要开启二级缓存,你需要在你的 SQL 映射文件中添加一行: <cache/>
     //简单的说，就是先查CacheKey，查不到再委托给实际的执行器去查
     if (cache != null) {
+      //判断是否清理二级缓存
       flushCacheIfRequired(ms);
       if (ms.isUseCache() && resultHandler == null) {
+        //确保不会缓存存储过程的结果
         ensureNoOutParams(ms, parameterObject, boundSql);
         @SuppressWarnings("unchecked")
+        //从缓存中获取查询结果
         List<E> list = (List<E>) tcm.getObject(cache, key);
         if (list == null) {
           list = delegate.<E> query(ms, parameterObject, rowBounds, resultHandler, key, boundSql);
